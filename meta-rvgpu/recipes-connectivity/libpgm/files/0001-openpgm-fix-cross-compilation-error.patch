@@ -1,0 +1,45 @@
+From d1ee9e514739694e33d36a0ee7280427b760a505 Mon Sep 17 00:00:00 2001
+From: Ihor Korynkevych <Ihor.Korynkevych@opensynergy.com>
+Date: Mon, 19 Aug 2019 23:07:51 +0300
+Subject: [PATCH] openpgm: Fix cross compilation error.
+
+Remove check of certain device files which are not present in case of
+cross compilation.
+
+Issue: EXDCLXXII-251
+
+Signed-off-by: Ihor Korynkevych <ihor.korynkevych@opensynergy.com>
+---
+ openpgm/pgm/configure.ac | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index ce24a11..18da699 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -140,14 +140,10 @@ AC_COMPILE_IFELSE(
+         [AC_MSG_RESULT([yes])
+                 CFLAGS="$CFLAGS -DHAVE_EVENTFD"],
+         [AC_MSG_RESULT([no])])
+-# useful /proc system
+-AC_CHECK_FILES([/proc/cpuinfo])
+ # example: crash handling
+ AC_CHECK_FUNCS([backtrace])
+ # timing
+ AC_CHECK_FUNCS([pselect])
+-AC_CHECK_FILES([/dev/rtc])
+-AC_MSG_CHECKING([for RDTSC instruction])
+ case "$host_os" in
+ darwin*)
+ 	AC_MSG_RESULT([no])
+@@ -161,7 +157,6 @@ __asm__ __volatile__ ("rdtsc" : "=a" (lo), "=d" (hi));]])],
+ 	[AC_MSG_RESULT([no])])
+ 	;;
+ esac
+-AC_CHECK_FILES([/dev/hpet])
+ # event handling
+ AC_CHECK_FUNCS([poll])
+ AC_CHECK_FUNCS([epoll_ctl])
+-- 
+2.7.4
+

@@ -1,0 +1,38 @@
+From b36b6f7e26725950d56d48f4295808c9baac5574 Mon Sep 17 00:00:00 2001
+From: Ihor Korynkevych <Ihor.Korynkevych@opensynergy.com>
+Date: Mon, 19 Aug 2019 23:31:43 +0300
+Subject: [PATCH] openpgm: Remove tests.
+
+Remove tests which cause a cross compilation error.
+
+Issue: EXDCLXXII-251
+
+Signed-off-by: Ihor Korynkevych <ihor.korynkevych@opensynergy.com>
+---
+ openpgm/pgm/configure.ac | 10 ----------
+ 1 file changed, 10 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 18da699..28b767c 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -271,16 +271,6 @@ uint32_t add32_with_carry (uint32_t a, uint32_t b) {
+ *)
+ 	;;
+ esac
+-# ticket spinlock friendly: unaligned pointers & atomic ops (excl. Sun Pro)
+-AC_MSG_CHECKING([for unaligned pointers])
+-AC_RUN_IFELSE(
+-	[AC_LANG_PROGRAM([[char* nezumi = "mouse";]],
+-		[[short x = *(short*)(nezumi + 2)]])],
+-	[AC_MSG_RESULT([yes])
+-		pgm_unaligned_pointers=yes],
+-	[AC_MSG_RESULT([no])
+-		pgm_unaligned_pointers=no])
+-AC_MSG_CHECKING([for intrinsic atomic ops])
+ # AC_PREPROC_IFELSE not always portable
+ AC_COMPILE_IFELSE(
+ 	[AC_LANG_SOURCE([[#if defined( __GNUC__ ) && ( defined( __i386__ ) || defined( __x86_64__ ) )
+-- 
+2.7.4
+
